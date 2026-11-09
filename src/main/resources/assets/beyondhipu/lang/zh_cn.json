@@ -1,0 +1,17 @@
+{
+  "message.beyondstorage.no_net": "未找到维度网络，请先创建！",
+  "message.beyondstorage.open_container": "请先打开一个容器",
+  "message.beyondstorage.stored": "已存入 %s 组物品",
+  "message.beyondstorage.network_full": "网络已满",
+  "message.beyondstorage.nothing_to_store": "没有可存入的物品",
+
+  "command.beyondhipu.auto.on": "自动存入模式：已开启",
+  "command.beyondhipu.auto.off": "自动存入模式：已关闭",
+  "command.beyondhipu.print.on": "调试打印模式：已开启",
+  "command.beyondhipu.print.off": "调试打印模式：已关闭",
+  "command.beyondhipu.add.invalid": "无效的容器 ID: %s",
+  "command.beyondhipu.add.success": "已将容器添加到白名单: %s",
+  "command.beyondhipu.add.exists": "容器已在白名单中: %s",
+  "command.beyondhipu.remove.success": "已将容器从白名单移除: %s",
+  "command.beyondhipu.remove.fail": "容器不在白名单中: %s"
+}

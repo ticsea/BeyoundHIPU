@@ -1,0 +1,18 @@
+{
+  "message.beyondstorage.no_net": "No dimension network found. Please create one first!",
+  "message.beyondstorage.open_container": "Please open a container first.",
+  "message.beyondstorage.stored": "Stored %s stacks",
+  "message.beyondstorage.network_full": "Network is full",
+  "message.beyondstorage.nothing_to_store": "Nothing to store",
+
+
+  "command.beyondhipu.auto.on": "Auto store mode: ON",
+  "command.beyondhipu.auto.off": "Auto store mode: OFF",
+  "command.beyondhipu.print.on": "Debug print mode: ON",
+  "command.beyondhipu.print.off": "Debug print mode: OFF",
+  "command.beyondhipu.add.invalid": "Invalid container ID: %s",
+  "command.beyondhipu.add.success": "Added container to whitelist: %s",
+  "command.beyondhipu.add.exists": "Container is already in whitelist: %s",
+  "command.beyondhipu.remove.success": "Removed container from whitelist: %s",
+  "command.beyondhipu.remove.fail": "Container is not in whitelist: %s"
+}

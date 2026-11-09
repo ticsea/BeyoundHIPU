@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.afk.beyondhipu.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "beyondhipu.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "MixinClientPacketListener"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
