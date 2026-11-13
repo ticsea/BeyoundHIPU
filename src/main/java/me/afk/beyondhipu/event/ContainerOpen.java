@@ -1,25 +1,19 @@
 package me.afk.beyondhipu.event;
 
 import me.afk.beyondhipu.BeyondHIPU;
-import me.afk.beyondhipu.Config;
+import me.afk.beyondhipu.config.ClientConfig;
 import me.afk.beyondhipu.gui.BHButton;
-import me.afk.beyondhipu.network.BHPacketHandle;
-import me.afk.beyondhipu.network.packet.c2s.InsertAllToNetPacket;
+import me.afk.beyondhipu.utils.ContainerSlotHelper;
 import me.afk.beyondhipu.utils.WhiteListUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.Slot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -27,6 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 
 public class ContainerOpen {
 
+    private static BHButton activeButton = null;
 
     @SubscribeEvent
     public static void onScreenInit(ScreenEvent.Init.Post event) {
@@ -36,8 +31,11 @@ public class ContainerOpen {
         }
 
         String screenKey = WhiteListUtil.getScreenKey(containerScreen);
+        if (screenKey == null) {
+            return;
+        }
 
-        if (Config.isDebugPrintMode) {
+        if (ClientConfig.isDebugPrintMode) {
             Minecraft minecraft = Minecraft.getInstance();
             LocalPlayer player = minecraft.player;
             if (player != null && screenKey != null) {
@@ -48,39 +46,44 @@ public class ContainerOpen {
             }
         }
 
-        if (!Config.isInWhitelist(screenKey)) return;
+        if (!ClientConfig.isInWhitelist(screenKey)) return;
+
+        // --- 获取玩家实例 ---
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return;
 
         // 创建按钮
-        Button button = new BHButton(0, 0);
+        BHButton button = new BHButton(0, 0);
         event.addListener(button);
 
-        // 获取容器界面的矩形信息
-        int guiLeft = containerScreen.getGuiLeft();
-        int guiTop = containerScreen.getGuiTop();
-        int guiWidth = containerScreen.getXSize();
-        int guiHeight = containerScreen.getYSize();
+        activeButton = button;
 
         // 计算位置
-        AbstractContainerMenu menu = containerScreen.getMenu();
-        int bx = 0;
-        int by = 0;
-        for (Slot slot : menu.slots) {
-            if (slot.container instanceof Inventory && slot.getContainerSlot() == 13) {
-                // 找到了！这个 slot 就是你需要的
-//                int menuIndex = menu.slots.indexOf(slot); // 拿到菜单索引
-                int screenX = guiLeft + slot.x;
-                int screenY = guiTop + slot.y;
-                bx = screenX;
-                by = screenY - button.getHeight();
-                break;
+        int[] xy = ClientConfig.getButtonOffset(screenKey);
+        if (xy == null) {
+            xy = ContainerSlotHelper.buildButtonAnchor(containerScreen, player);
+            ClientConfig.setButtonOffset(screenKey, xy[0], xy[1]);
+        }
+//        int bx = ContainerSlotHelper.getPlayerSlotScreenX(containerScreen, 13);
+//        int by = ContainerSlotHelper.getPlayerSlotScreenY(containerScreen, 13) - button.getHeight();
+
+        button.setX(xy[0]);
+        button.setY(xy[1] - button.getHeight());
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        // 只在 Tick 结束阶段处理，防止一帧跑两次
+        if (event.phase != TickEvent.Phase.END) return;
+
+        // 如果当前有活跃的按钮，并且玩家确实还在查看界面，就更新它
+        if (activeButton != null) {
+            if (Minecraft.getInstance().screen instanceof AbstractContainerScreen<?>) {
+                activeButton.tick(); // 调用你刚才写好的 tick 方法
+            } else {
+                // 如果界面关了，清空缓存
+                activeButton = null;
             }
         }
-
-        // 1. X轴：绝对是容器的水平居中
-        int buttonX = guiLeft + (guiWidth - button.getWidth()) / 2;
-        int buttonY = guiTop + guiHeight - 99;
-
-        button.setX(bx);
-        button.setY(by);
     }
 }

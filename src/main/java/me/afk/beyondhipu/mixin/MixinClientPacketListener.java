@@ -1,6 +1,6 @@
 package me.afk.beyondhipu.mixin;
 
-import me.afk.beyondhipu.Config;
+import me.afk.beyondhipu.config.ClientConfig;
 import me.afk.beyondhipu.network.BHPacketHandle;
 import me.afk.beyondhipu.network.packet.c2s.InsertAllToNetPacket;
 import me.afk.beyondhipu.utils.WhiteListUtil;
@@ -23,7 +23,7 @@ public class MixinClientPacketListener {
 
         // 1. 白名单和开关判断
         String screenKey = WhiteListUtil.getScreenKey(containerScreen);
-        if (!Config.isOn() || !Config.isInWhitelist(screenKey)) return;
+        if (!ClientConfig.isOn() || !ClientConfig.isInWhitelist(screenKey)) return;
 
         BHPacketHandle.INSTANCE.sendToServer(new InsertAllToNetPacket());
     }

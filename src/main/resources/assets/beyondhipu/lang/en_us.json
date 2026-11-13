@@ -14,5 +14,8 @@
   "command.beyondhipu.add.success": "Added container to whitelist: %s",
   "command.beyondhipu.add.exists": "Container is already in whitelist: %s",
   "command.beyondhipu.remove.success": "Removed container from whitelist: %s",
-  "command.beyondhipu.remove.fail": "Container is not in whitelist: %s"
+  "command.beyondhipu.remove.fail": "Container is not in whitelist: %s",
+
+  "command.haveitpickup.mode.visual_grid": "§aSwitched to Visual Grid Detection (High Compatibility)",
+  "command.haveitpickup.mode.object_reference": "§eSwitched to Object Reference Detection (Standard)"
 }

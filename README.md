@@ -22,10 +22,11 @@
 - **白名单**: MOD具有白名单, 控制着按钮的显示, 存入网络的功能是否应用于容器。
 
 **调试与指令**：
-*   `/beyondhipu print`：开启调试模式，打开任何容器都会在聊天框打印其注册 ID。
+*   `/beyondhipu print`：开启调试模式，打开任何容器都会在聊天框打印其注册 容器ID。
 *   `/beyondhipu add <容器ID>`：将容器 ID 加入白名单（支持按 `Tab` 自动补全游戏内所有容器）。
-*   `/beyondhipu remove <容器ID>`：从白名单移除。
+*   `/beyondhipu remove <容器ID>`：从白名单移除容器。
 *   `/beyondhipu auto`：无需点击按钮, 打开容器即刻转移物品进网络。
+*   `/beyondhipu useVisualGrid <true/false>`: 基于容器槽位构成矩形，能更准确区分容器与玩家背包物品。避免某些情况下会连带玩家背包物品也存入网络。
 
 **引用与致谢**
 beyond_storage_addon MOD:（https://github.com/wwwqqq001/beyond_storage_addon）

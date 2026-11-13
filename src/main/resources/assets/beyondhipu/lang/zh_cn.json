@@ -1,7 +1,7 @@
 {
   "message.beyondstorage.no_net": "未找到维度网络，请先创建！",
   "message.beyondstorage.open_container": "请先打开一个容器",
-  "message.beyondstorage.stored": "已存入 %s 组物品",
+  "message.beyondstorage.stored": "已存入 %d 组物品",
   "message.beyondstorage.network_full": "网络已满",
   "message.beyondstorage.nothing_to_store": "没有可存入的物品",
 
@@ -13,5 +13,8 @@
   "command.beyondhipu.add.success": "已将容器添加到白名单: %s",
   "command.beyondhipu.add.exists": "容器已在白名单中: %s",
   "command.beyondhipu.remove.success": "已将容器从白名单移除: %s",
-  "command.beyondhipu.remove.fail": "容器不在白名单中: %s"
+  "command.beyondhipu.remove.fail": "容器不在白名单中: %s",
+
+  "command.haveitpickup.mode.visual_grid": "§a已切换为 视觉网格识别 (高兼容模式)",
+  "command.haveitpickup.mode.object_reference": "§e已切换为 对象引用识别 (标准模式)"
 }

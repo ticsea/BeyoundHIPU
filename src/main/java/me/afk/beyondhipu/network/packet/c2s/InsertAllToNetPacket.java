@@ -4,18 +4,21 @@ import com.wintercogs.beyonddimensions.api.dimensionnet.DimensionsNet;
 import com.wintercogs.beyonddimensions.api.dimensionnet.UnifiedStorage;
 import com.wintercogs.beyonddimensions.api.storage.key.KeyAmount;
 import com.wintercogs.beyonddimensions.api.storage.key.impl.ItemStackKey;
+import me.afk.beyondhipu.config.ClientConfig;
+import me.afk.beyondhipu.config.ServerConfig;
+import me.afk.beyondhipu.utils.ContainerSlotHelper;
+import me.afk.beyondhipu.utils.WhiteListUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class InsertAllToNetPacket {
@@ -44,11 +47,6 @@ public class InsertAllToNetPacket {
     // https://github.com/wwwqqq001/beyond_storage_addon/blob/main/src/main/java/com/example/beyondstorage/network/StoreLogic.java
     // 如有侵权,请联系我.
     private static void insertToNet(ServerPlayer player) {
-        // 1. 超越维度检查
-        /*if (!DimensionsNet.hasAnyNet(player)) {
-            player.displayClientMessage(Component.translatable("message.beyondstorage.no_net").withStyle(ChatFormatting.RED), true);
-            return;
-        }*/
 
         DimensionsNet net = DimensionsNet.getPrimaryNetFromPlayer(player);
         if (net == null) {
@@ -66,22 +64,31 @@ public class InsertAllToNetPacket {
             return;
         }
 
+        List<Slot> validSlots = ContainerSlotHelper.getValidContainerSlots(container, player, ClientConfig.isUseVisualGrid());
+
+        doInsert(player, validSlots, storage, container, ClientConfig.isUseVisualGrid());
+    }
+
+    private static void doInsert(ServerPlayer player, List<Slot> validSlots, UnifiedStorage storage, AbstractContainerMenu container, boolean isUseVisualGrid) {
         int movedStacks = 0;
         boolean networkFull = false;
 
-        // 3. 遍历容器槽位
-        for (Slot slot : container.slots) {
-            // 排除玩家背包槽（工作台/箱子等界面会把玩家背包也加进 slots）
-            if (slot.container instanceof Inventory) continue;
+        int[] bounds = null;
+        if (isUseVisualGrid) {
+            String menuKey = WhiteListUtil.getMenuKey(container);
+            int[] ints = ServerConfig.getBounds(menuKey);
+            if (ints == null) {
+                bounds = ContainerSlotHelper.scanContainerGridBounds(validSlots);
+                ServerConfig.setBounds(menuKey, bounds[0], bounds[1], bounds[2], bounds[3]);
+            } else {
+                bounds = ints;
+            }
 
-            // 排除合成结果槽，防止绕过 onTake 刷物品
-            if (slot instanceof ResultSlot) continue;
+        }
 
-            // 排除幽灵槽/禁用槽
-            if (!slot.isActive()) continue;
-
-            // 无物品或不可拿取
-            if (!slot.hasItem() || !slot.mayPickup(player)) continue;
+        for (Slot slot : validSlots) {
+            if (!slot.hasItem()) continue;
+            if (isUseVisualGrid && !ContainerSlotHelper.isSlotInBounds(slot, bounds)) continue;
 
             ItemStack stack = slot.getItem();
             ItemStackKey key = new ItemStackKey(stack);
