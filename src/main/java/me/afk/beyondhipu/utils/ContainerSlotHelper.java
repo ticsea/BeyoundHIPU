@@ -124,7 +124,7 @@ public class ContainerSlotHelper {
      */
     public static boolean isValidContainerSlot(Slot slot, Player player, boolean ignoreInventory) {
         // 1. 如果是玩家背包，直接排除
-        if (!ignoreInventory && isPlayerInventorySlot(slot, player)) return false;
+        if (ignoreInventory && isPlayerInventorySlot(slot, player)) return false;
 
         // 2. 排除隐藏槽位或非法槽位（某些模组的假槽坐标可能是负数）
         if (slot.x < 0 || slot.y < 0) return false;
