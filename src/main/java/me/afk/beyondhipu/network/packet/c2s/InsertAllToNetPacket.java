@@ -8,6 +8,7 @@ import me.afk.beyondhipu.config.ClientConfig;
 import me.afk.beyondhipu.config.ServerConfig;
 import me.afk.beyondhipu.utils.ContainerSlotHelper;
 import me.afk.beyondhipu.utils.WhiteListUtil;
+import me.afk.beyondhipu.utils.ZoneScanner;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -64,7 +65,7 @@ public class InsertAllToNetPacket {
             return;
         }
 
-        List<Slot> validSlots = ContainerSlotHelper.getValidContainerSlots(container, player, ClientConfig.isUseVisualGrid());
+        List<Slot> validSlots = ContainerSlotHelper.getValidContainerSlots(container, player, !ClientConfig.isUseVisualGrid());
 
         doInsert(player, validSlots, storage, container, ClientConfig.isUseVisualGrid());
     }
@@ -90,7 +91,8 @@ public class InsertAllToNetPacket {
 
         for (Slot slot : validSlots) {
             if (!slot.hasItem()) continue;
-            if (isUseVisualGrid && !ContainerSlotHelper.isSlotInBounds(slot, bounds)) continue;
+            // 过滤非要求槽位
+            if (isUseVisualGrid && !ZoneScanner.isInBounds(slot, bounds)) continue;
 
             ItemStack stack = slot.getItem();
             ItemStackKey key = new ItemStackKey(stack);
