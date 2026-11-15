@@ -78,7 +78,9 @@ public class InsertAllToNetPacket {
             String menuKey = WhiteListUtil.getMenuKey(container);
             int[] ints = ServerConfig.getBounds(menuKey);
             if (ints == null) {
-                bounds = ContainerSlotHelper.scanContainerGridBounds(validSlots);
+                ZoneScanner.ScanResult scanResult = ZoneScanner.scan(validSlots);
+                // todo there may get null
+                bounds = scanResult.containerBounds;
                 ServerConfig.setBounds(menuKey, bounds[0], bounds[1], bounds[2], bounds[3]);
             } else {
                 bounds = ints;
