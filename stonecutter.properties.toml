@@ -1,0 +1,64 @@
+# See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
+# Mod Properties
+mod.id = "beyondhipu"
+mod.name = "Beyond HIPU"
+mod.group = "me.afk.beyondhipu"
+mod.version = "1.0.2"
+mod.description = "Haaa"
+mod.authors = "Me!"
+mod.license = "MIT"
+
+# Publishing
+publish.enabled = true
+publish.modrinth.id = "cKx75yvx"
+publish.curseforge.id = "1793969"
+publish.xyebbs.id = "44517"
+mod.version_type = "beta"
+
+
+# version metadata
+["1.21.1"]
+# Mod compatibility range in neoforge.mods.toml
+mod.mc_compat = "[1.21, 1.21.1]"
+# List of releases to be marked compatible on Modrinth/Curseforge
+mod.mc_releases = ["1.21", "1.21.1"]
+deps.neo_loader = "21.1.265"
+deps.beyond_dimensions_version = "0.7.30"
+deps.beyond_dimensions_version_id = "8812500"
+deps.kff_version = "5.13.0"
+
+
+["1.21.11"]
+mod.mc_compat = "[1.21.11]"
+mod.mc_releases = ["1.21.11"]
+deps.neo_loader = "21.11.48"
+deps.beyond_dimensions_version = "0.6.24-alpha"
+deps.beyond_dimensions_version_id = "7705443"
+deps.kff_version = "6.5.0"
+
+
+["26.1.2"]
+mod.mc_compat = "[26.1, 26.1.2]"
+mod.mc_releases = ["26.1", "26.1.1", "26.1.2"]
+deps.neo_loader = "26.1.2.129"
+deps.beyond_dimensions_version = "0.7.32"
+deps.beyond_dimensions_version_id = "8812489"
+deps.kff_version = "6.5.0"
+
+
+["26.2"]
+mod.mc_compat = "[26.2, 26.3)"
+mod.mc_releases = ["26.2"]
+deps.neo_loader = "26.2.0.93"
+deps.beyond_dimensions_version = "0.7.32"
+deps.beyond_dimensions_version_id = "8812492"
+deps.kff_version = "6.5.0"
+
+
+["26.3"]
+mod.mc_compat = "[26.3, 26.4)"
+mod.mc_releases = ["26.3"]
+deps.neo_loader = "26.3.0.101"
+deps.beyond_dimensions_version = "0.7.32"
+deps.beyond_dimensions_version_id = "9350868"
+deps.kff_version = "6.5.0"

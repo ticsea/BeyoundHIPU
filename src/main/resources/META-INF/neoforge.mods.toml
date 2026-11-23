@@ -1,0 +1,30 @@
+license = "${license}"
+
+modLoader="javafml"
+loaderVersion="[1,)"
+
+[[mods]]
+modId = "${id}"
+displayName = "${name}"
+version = "${version}"
+authors = "${authors}"
+description = "${description}"
+
+#? if >=26.2 {
+bannerFile="logo.png" # 横幅图片（推荐）
+iconFile="logo.png"     # 方形图标（可选，但建议至少有一个）
+#?} else {
+#logoFile="logo.png"     # 旧版本继续用 logoFile
+#?}
+#displayURL = "..."
+#issueTrackerUrl = "..."
+
+[[mixins]]
+config = "${mixinFileName}"
+
+[[dependencies.${id}]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft}"
+ordering = "NONE"
+side = "BOTH"
