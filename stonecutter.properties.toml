@@ -3,9 +3,9 @@
 mod.id = "beyondhipu"
 mod.name = "Beyond HIPU"
 mod.group = "me.afk.beyondhipu"
-mod.version = "1.0.2"
+mod.version = "1.0.3"
 mod.description = "Haaa"
-mod.authors = "Me!"
+mod.authors = "AFK"
 mod.license = "MIT"
 
 # Publishing
