@@ -28,3 +28,10 @@ type = "required"
 versionRange = "${minecraft}"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.${id}]]
+modId = "beyonddimensions"
+type = "required"
+versionRange = "[0.7.30,)"
+ordering = "NONE"
+side = "BOTH"
