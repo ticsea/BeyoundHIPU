@@ -1,16 +1,17 @@
 package me.afk.beyondhipu.gui;
 
+import com.wintercogs.beyonddimensions.common.init.BDItems;
 import me.afk.beyondhipu.network.BHPacketHandle;
 import me.afk.beyondhipu.network.packet.c2s.InsertAllToNetPacket;
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 public class BHButton extends ExtendedButton {
-    // 使用 beyonddimensions 的物品贴图作为序列帧图集
-    private static final ResourceLocation TEXTURE = ResourceLocation.tryBuild("beyonddimensions", "textures/item/net_creater.png");
+    private static ItemStack icon = null;
 
     // 序列帧参数定义
     private static final int FRAME_WIDTH = 16;      // 每一帧的宽度
@@ -45,22 +46,24 @@ public class BHButton extends ExtendedButton {
 
     @Override
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        int vOffset = currentFrame * FRAME_HEIGHT;
-
-        // 3. 绘制
-        // 参数依次为：纹理, 屏幕X, 屏幕Y, 纹理U, 纹理V, 宽度, 高度, 图集总宽度, 图集总高度
-        // 注意：图集总宽 = 16，总高 = 16 * 9 = 144。
-        // 如果你的原图被 padding 过，请修改这里的 TEXTURE_WIDTH 和 TEXTURE_HEIGHT
-        int textureAtlasHeight = FRAME_HEIGHT * TOTAL_FRAMES;
-
-        guiGraphics.blit(TEXTURE,
-                this.getX(), this.getY(),
-                0, vOffset, // 这里 vOffset 随时间动态变化
-                this.width, this.height, FRAME_WIDTH, textureAtlasHeight);
+        if (icon != null) {
+            //? if >=26.1.2
+            guiGraphics.renderItem(icon, this.getX(), this.getY());
+            //? else
+            //guiGraphics.renderItem(icon, this.getX(), this.getY());
+        } else {
+            getItem();
+        }
 
         // 可选：如果你想在鼠标悬停时画一个白色的半透明遮罩表示选中
         if (this.isHovered) {
             guiGraphics.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height, 0x40FFFFFF);
+        }
+    }
+
+    private void getItem() {
+        if (icon == null) {
+            icon = new ItemStack(BDItems.NET_CREATER.get());
         }
     }
 }

@@ -21,8 +21,6 @@ import net.minecraftforge.fml.common.Mod;
 
 public class ContainerOpen {
 
-    private static BHButton activeButton = null;
-
     @SubscribeEvent
     public static void onScreenInit(ScreenEvent.Init.Post event) {
         // 判断当前 Screen 是否是容器界面（箱子、木桶、熔炉等都继承自 AbstractContainerScreen）
@@ -56,8 +54,6 @@ public class ContainerOpen {
         BHButton button = new BHButton(0, 0);
         event.addListener(button);
 
-        activeButton = button;
-
         // 计算位置
         int[] xy = ClientConfig.getButtonOffset(screenKey);
         if (xy == null) {
@@ -69,21 +65,5 @@ public class ContainerOpen {
 
         button.setX(xy[0]);
         button.setY(xy[1] - button.getHeight());
-    }
-
-    @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        // 只在 Tick 结束阶段处理，防止一帧跑两次
-        if (event.phase != TickEvent.Phase.END) return;
-
-        // 如果当前有活跃的按钮，并且玩家确实还在查看界面，就更新它
-        if (activeButton != null) {
-            if (Minecraft.getInstance().screen instanceof AbstractContainerScreen<?>) {
-                activeButton.tick(); // 调用你刚才写好的 tick 方法
-            } else {
-                // 如果界面关了，清空缓存
-                activeButton = null;
-            }
-        }
     }
 }
