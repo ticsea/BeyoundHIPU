@@ -230,7 +230,7 @@ publishMods {
         requiredMcReleases.forEach { minecraftVersions.add(it) }
 
         label = sc.properties["mod.version"] as String
-        environmentType = "BOTH" // or CLIENT
+        environmentType = "CLIENT_AND_SERVER" // or CLIENT
         orderNumber = 0
 
         curseForgeLink("https://www.curseforge.com/minecraft/mc-mods/beyondhipu")
