@@ -142,35 +142,14 @@ tasks {
 }
 
 // ==========================================
-// 5. 收集产物 (注意：新插件下没有 remapJar)
+// 5. JAR 产物配置
 // ==========================================
-// 因为使用 moddev，最终产物是 jar，所以直接拿 jar 任务作为输出
-val finalJarTask = tasks.named<Jar>("jar")
-// 复制到 out 目录
-val copyJars = tasks.register<Copy>("copyJars") {
-    val dir = "../../out/v${modVersion}/"
-    project.delete(fileTree(mapOf("dir" to dir, "include" to listOf("$modId-*.jar"))))
-    from(finalJarTask)
-    into(dir)
+
+val finalJarTask = tasks.named<Jar>("jar") {
+    archiveFileName.set(
+        "$modId-${modVersion}+mc${sc.current.version}-neoforge.jar"
+    )
 }
-tasks.named("build") { finalizedBy(copyJars) }
-
-val copyLatest = tasks.register<Copy>("copyLatest") {
-    val dir = "../../out/latest/"
-    // 清理旧文件
-    project.delete(fileTree(mapOf("dir" to dir, "include" to listOf("$modId-*.jar"))))
-
-    // 只复制主 Jar，不复制 sourcesJar
-    from(finalJarTask)
-    into(dir)
-
-    // 精确重命名（排除 -sources）
-    rename { originalName ->
-        if (originalName.contains("sources")) return@rename originalName
-        "$modId-${modVersion}+mc${sc.current.version}.jar"
-    }
-}
-tasks.named("build") { finalizedBy(copyLatest) }
 
 // ==========================================
 // 6. 发布配置 (Publishing)
